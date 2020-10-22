@@ -1,0 +1,46 @@
+﻿@page "/getReport"
+@using System.Net.Http
+@inject Data.IReportService info
+
+<h3>ReportPage</h3>
+
+<table style="width:100%">
+
+    @for (int i = 0; i < pos.Count; i++)
+    {
+        <tr>
+            <th>@pos[i].Post</th>
+            <th>@pos[i].user</th>
+            <th>@pos[i].Time</th>
+            <th>@pos[i].CommentCount &nbsp; Comments</th>
+        </tr>
+        @for (int j = 0; j < com.Count; j++)
+        {
+            <tr>
+                <td>@com[j].data</td>
+                <td>@com[j].user</td>
+                <td>@com[j].time</td>
+                <td>@com[j].like &nbsp;&nbsp; (Like)</td>
+                <td>@com[j].disLike &nbsp;&nbsp; (DisLike)</td>
+            </tr>
+        }
+    }
+</table>
+
+    @code {
+
+        static List<BrainStation23_Please_Consider_For_Blazor.Data.Posting> pos = new List<Data.Posting>();
+        static List<BrainStation23_Please_Consider_For_Blazor.Data.Commenting> com = new List<Data.Commenting>();
+
+        protected override async Task OnInitializedAsync()
+        {
+            ////Install-Package Microsoft.AspNetCore.Blazor.HttpClient -Version 3.2.0-preview3.20168.3
+
+
+
+            pos = await info.GetInfo();
+            com = await info.GetInfo2();
+            await base.OnInitializedAsync();
+
+        }
+    }
